@@ -19,8 +19,11 @@
             </dataSource>
         </environment>
     </environments>
+
+<!--    注册mapper.xml文件    -->
     <mappers>
        <!--scan the mapper-->
         <package name="com.itheima.mapper"/>
     </mappers>
+
 </configuration>

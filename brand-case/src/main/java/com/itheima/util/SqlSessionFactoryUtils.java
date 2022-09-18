@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
+// the tool class will be used in Serviceimpl classes.
 public class SqlSessionFactoryUtils {
 
     private static SqlSessionFactory sqlSessionFactory;
@@ -21,7 +22,6 @@ public class SqlSessionFactoryUtils {
             e.printStackTrace();
         }
     }
-
 
     public static SqlSessionFactory getSqlSessionFactory(){
         return sqlSessionFactory;

@@ -3,16 +3,11 @@ package com.itheima.pojo;
 public class Brand {
     // primary key
     private Integer id;
-
     private String brandName;
-
     private String companyName;
-
     private Integer ordered;
-
     private String description;
-    // 状态：0：禁用  1：启用
-    private Integer status;
+    private Integer status;      // Status：0：forbidden  1：started
 
 
     public Integer getId() {

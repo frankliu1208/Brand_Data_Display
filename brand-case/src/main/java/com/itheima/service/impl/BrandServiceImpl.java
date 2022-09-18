@@ -11,88 +11,71 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import java.util.List;
 
 public class BrandServiceImpl implements BrandService {
-    //create SqlSessionFactory object,  SqlSessionFactoryUitls is a tool class
-    SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
 
+    //create SqlSessionFactory object from the tool class,  SqlSessionFactoryUitls is a tool class
+    SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
 
     @Override
     public List<Brand> selectAll() {
-        //2. create SqlSession object
+        // create SqlSession object
         SqlSession sqlSession = factory.openSession();
-        //3. get object of BrandMapper
+        // get object of BrandMapper
         BrandMapper mapper = sqlSession.getMapper(BrandMapper.class);
-
-        //4. call the related methods
+        // call the related methods
         List<Brand> brands = mapper.selectAll();
-
-        //5. release resources
+        // release resources
         sqlSession.close();
-
         return brands;
     }
 
+
     @Override
     public void add(Brand brand) {
-
         SqlSession sqlSession = factory.openSession();
-
         BrandMapper mapper = sqlSession.getMapper(BrandMapper.class);
-
         mapper.add(brand);
         sqlSession.commit();
-
         sqlSession.close();
     }
 
+
+
     @Override
     public void deleteById(int id) {
-
         SqlSession sqlSession = factory.openSession();
-
         BrandMapper mapper = sqlSession.getMapper(BrandMapper.class);
-
         mapper.deleteById(id);
-
         sqlSession.commit();
-
         sqlSession.close();
     }
 
 
     @Override
     public void deleteByIds(int[] ids) {
-
         SqlSession sqlSession = factory.openSession();
-
         BrandMapper mapper = sqlSession.getMapper(BrandMapper.class);
-
         mapper.deleteByIds(ids);
-
         sqlSession.commit();
-
         sqlSession.close();
     }
 
+
+
 //    according to the two parameters from front end, and calculate the starting index, and size
+    // this method relates to two methods defined in BrandMapper.java
     @Override
     public PageBean<Brand> selectByPage(int currentPage, int pageSize) {
-
         SqlSession sqlSession = factory.openSession();
-
         BrandMapper mapper = sqlSession.getMapper(BrandMapper.class);
-
-
         int begin = (currentPage - 1) * pageSize;
         int size = pageSize;
+        List<Brand> rows = mapper.selectByPage(begin, size);  // a method defined in BrandMapper interface
+        int totalCount = mapper.selectTotalCount();  // a method defined in BrandMapper interface
 
-        List<Brand> rows = mapper.selectByPage(begin, size);
-        int totalCount = mapper.selectTotalCount();
-
-        //7. get pageBean object, put the data which is coming from mapper layer and put into the pagebean object
+        // get pageBean object, put the data which is coming from mapper layer and put into the pagebean object
         PageBean<Brand> pageBean = new PageBean<>();
         pageBean.setRows(rows);
         pageBean.setTotalCount(totalCount);
-
         sqlSession.close();
 
         return pageBean;
@@ -100,37 +83,26 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public PageBean<Brand> selectByPageAndCondition(int currentPage, int pageSize, Brand brand) {
-
         SqlSession sqlSession = factory.openSession();
-
         BrandMapper mapper = sqlSession.getMapper(BrandMapper.class);
-
-
         int begin = (currentPage - 1) * pageSize;
-
         int size = pageSize;
-
 
         String brandName = brand.getBrandName();
         if (brandName != null && brandName.length() > 0) {
             brand.setBrandName("%" + brandName + "%");
         }
-
         String companyName = brand.getCompanyName();
         if (companyName != null && companyName.length() > 0) {
             brand.setCompanyName("%" + companyName + "%");
         }
 
-
-
-        List<Brand> rows = mapper.selectByPageAndCondition(begin, size, brand);
-
-        int totalCount = mapper.selectTotalCountByCondition(brand);
+        List<Brand> rows = mapper.selectByPageAndCondition(begin, size, brand);  // a method defined in BrandMapper interface
+        int totalCount = mapper.selectTotalCountByCondition(brand);  // a method defined in BrandMapper interface
 
         PageBean<Brand> pageBean = new PageBean<>();
         pageBean.setRows(rows);
         pageBean.setTotalCount(totalCount);
-
         sqlSession.close();
 
         return pageBean;

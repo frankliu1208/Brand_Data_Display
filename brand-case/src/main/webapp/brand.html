@@ -8,17 +8,21 @@
         .el-table .warning-row {
             background: oldlace;
         }
-
         .el-table .success-row {
             background: #f0f9eb;
         }
     </style>
-
+    <!-- introduce css -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
+
+
+
 <body>
 <div id="app">
-
-    <!--search the form-->
+<!--    v-bind  给标签原有属性，绑定模型数据(i.e. in the data section)， 当模型数据变化时，tag的属性值也变化，  可以缩写为 : ,  v-bind 数据只从data流向页面   https://www.yuque.com/cessstudy/kak11d -->
+<!--    v-on:  绑定方法，缩写@ ， 绑定的方法定义在methods属性中， 方法内部通过this关键字可以访问定义在data中数据  -->
+<!--    in the below,  model属性中的brand定义在vue的 data模块中  -->
     <el-form :inline="true" :model="brand" class="demo-form-inline">
 
         <el-form-item label="current status">
@@ -29,11 +33,11 @@
         </el-form-item>
 
         <el-form-item label="company name">
-            <el-input v-model="brand.companyName" placeholder="company name"></el-input>
+            <el-input v-model="brand.companyName" placeholder="company name" clearable></el-input>
         </el-form-item>
 
         <el-form-item label="brand name">
-            <el-input v-model="brand.brandName" placeholder="brand name"></el-input>
+            <el-input v-model="brand.brandName" placeholder="brand name" clearable></el-input>
         </el-form-item>
 
         <el-form-item>
@@ -42,58 +46,62 @@
     </el-form>
 
 
-    <!--Button-->
-
+    <!--Button, functions:  series delete,  add-->
     <el-row>
-
         <el-button type="danger" plain @click="deleteByIds">Series delete </el-button>
         <el-button type="primary" plain @click="dialogVisible = true">Add</el-button>
-
     </el-row>
 
 
-    <!--添加数据对话框表单-->
+
+    <!-- Pop-out box for adding functionality-->
     <el-dialog
             title="Edit the brand"
             :visible.sync="dialogVisible"
             width="30%"
     >
-
-        <el-form ref="form" :model="brand" label-width="80px">
+<!--  v model realize two-way binding  -->
+<!--   v-bind 数据只从data流向页面   https://www.yuque.com/cessstudy/kak11d  -->
+<!--     双向绑定(v-model)：数据不仅能从data流向页面，还可以从页面流向data     -->
+        <el-form ref="form" :model="brand" label-width="60px">
             <el-form-item label="Brand name">
-                <el-input v-model="brand.brandName"></el-input>
+                <el-input v-model="brand.brandName" clearable></el-input>
             </el-form-item>
 
             <el-form-item label="Company name">
-                <el-input v-model="brand.companyName"></el-input>
+                <el-input v-model="brand.companyName" clearable></el-input>
             </el-form-item>
 
             <el-form-item label="Order">
-                <el-input v-model="brand.ordered"></el-input>
+                <el-input v-model="brand.ordered" clearable></el-input>
             </el-form-item>
 
             <el-form-item label="Description">
-                <el-input type="textarea" v-model="brand.description"></el-input>
+                <el-input type="textarea" v-model="brand.description" clearable></el-input>
             </el-form-item>
 
             <el-form-item label="Status">
                 <el-switch v-model="brand.status"
                            active-value="1"
                            inactive-value="0"
+                           active-color="#13ce66"
+                           inactive-color="#ff4949"
+                           active-text="started"
+                           inactive-text="forbidden"
                 ></el-switch>
             </el-form-item>
-
 
             <el-form-item>
                 <el-button type="primary" @click="addBrand">Submit</el-button>
                 <el-button @click="dialogVisible = false">Cancel</el-button>
             </el-form-item>
         </el-form>
-
     </el-dialog>
 
 
-    <!--Sheet-->
+
+    <!--displaying Sheet-->
+
     <template>
         <el-table
                 :data="tableData"
@@ -102,11 +110,12 @@
                 @selection-change="handleSelectionChange">
             <el-table-column
                     type="selection"
-                    width="55">
+                    width="25">
             </el-table-column>
             <el-table-column
                     type="index"
-                    width="50">
+                    label="Index"
+                    >
             </el-table-column>
 
             <el-table-column
@@ -130,7 +139,8 @@
             <el-table-column
                     prop="description"
                     align="center"
-                    label="Description">
+                    label="Description"
+                    >
             </el-table-column>
 
             <el-table-column
@@ -143,6 +153,7 @@
                     align="center"
                     label="Operation">
 
+<!--   function of below two buttons are not realized ,  modify and cancel           -->
                 <el-row>
                     <el-button type="primary">Modify</el-button>
                     <el-button type="danger" @click="deleteById">Cancel</el-button>
@@ -156,6 +167,7 @@
     <!--tool bar for spliting page at the bottom of the page-->
     <!--            when current page number changes, execute second method  -->
     <el-pagination
+            background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
@@ -169,11 +181,12 @@
 
 
 <script src="js/vue.js"></script>
-<script src="element-ui/lib/index.js"></script>
-<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
-
+<!--<script src="element-ui/lib/index.js"></script>-->
+<!--<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">-->
 <script src="//unpkg.com/vue@2"></script>
-<script src="//unpkg.com/element-ui"></script>
+<!-- introduce element framework -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="//unpkg.com/element-ui"></script>-->
 <script src="//unpkg.com/element-ui/lib/umd/locale/en.js"></script>
 
 <script>
@@ -183,68 +196,34 @@
 <!--axios is a tool for ajax  -->
 <script src="js/axios-0.18.0.js"></script>
 
+
+
+
 <script>
     new Vue({
         el: "#app",
 
         mounted(){
-            // when the pages are loaded completly, send ajax request to backend, get the data
+            // when the pages are loaded completely, send ajax request to backend, get the data
             this.selectAll();
-
         },
 
 
-
         methods: {
-
-
             selectAll(){
 
-    // version1
-                // var _this = this;
-                //
-                // axios({
-                //     method:"get",
-                //     url:"http://localhost:8080/brand-case/brand/selectAll"
-                // }).then(function (resp) {
-                //     _this.tableData = resp.data;
-                // })
-
-/*   version2
-                var _this = this;
-
-                axios({
-                    method:"post",
-                    url:"http://localhost:8080/brand-case/brand/selectByPageAndCondition?currentPage="+ _this.currentPage+"&pageSize="+ _this.pageSize,
-                    data:this.brand
-                }).then(function (resp) {
-
-                    //get the data from back end,  assign the rows array to tableData
-                    _this.tableData = resp.data.rows; //   {rows:[],totalCount:100}
-                    //  get totalCount and send it to data section
-                    _this.totalCount = resp.data.totalCount;
-                })
- */
                 // usually, in the then function, "this " can not be used directly
-                // in arrow function, it does not need to _this = this
-
-
-
+                // in arrow function, it does not need to be:  _this = this
 
                 axios({
                     method:"post",
-                    url:"http://localhost:8080/brand-case/brand/selectByPageAndCondition?currentPage="+ this.currentPage+"&pageSize="+ this.pageSize,
+                    url:"http://localhost:8080/brand_case/brand/selectByPageAndCondition?currentPage="+ this.currentPage+"&pageSize="+ this.pageSize,
                     data:this.brand
                 }).then(resp =>{
-
                     this.tableData = resp.data.rows; // {rows:[],totalCount:100}
-
                     this.totalCount = resp.data.totalCount;
                 })
-
-
             },
-
 
 
 
@@ -258,40 +237,34 @@
             },
 
 
-            // execute after the checkbox was selected
+            // execute after the checkbox was multiple selected
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-
             },
+
 
 
             // Search
             onSubmit() {
                 this.selectAll();
-
             },
 
 
-            // add the data
             addBrand() {
-
                 var _this = this;
 
                 // send ajax to the backend
                 axios({
                     method:"post",
-                    url:"http://localhost:8080/brand-case/brand/add",
+                    url:"http://localhost:8080/brand_case/brand/add",
                     data:_this.brand
                 }).then(function (resp) {
                     if(resp.data == "success"){
                         //  if add successfully
-
                         //close the add-item window
                         _this.dialogVisible = false;
-
                         // search the list again after adding
                         _this.selectAll();
-
                         // pop up the message,  this is the code from element tool website
                         _this.$message({
                             message: 'Congratulation，add successfully',
@@ -299,9 +272,7 @@
                         });
                     }
                 })
-
             },
-
 
 
             //splitting the pages
@@ -310,7 +281,6 @@
                 this.pageSize  = val;
                 this.selectAll();
             },
-
 
             handleCurrentChange(val) {
                 //  define the current page
@@ -327,7 +297,7 @@
                     cancelButtonText: 'Cancel',
                     type: 'warning'
                 }).then(() => {
-                    //User click the ok button
+                    //User click the ok button to confirm deleting
 
                     //1. create id array, get from this.multipleSelection
                     for (let i = 0; i < this.multipleSelection.length; i++) {
@@ -336,23 +306,19 @@
                         let selectionElement = this.multipleSelection[i];
                         // get the id from the object, and send it to selectedIds array
                         this.selectedIds[i] = selectionElement.id;
-
                     }
 
                     //2. send AJAX request
                     var _this = this;
 
-
                     axios({
                         method:"post",
-                        url:"http://localhost:8080/brand-case/brand/deleteByIds",
+                        url:"http://localhost:8080/brand_case/brand/deleteByIds",
                         data:_this.selectedIds
                     }).then(function (resp) {
-                        if(resp.data == "success"){
+                        if(resp.data == "series delete is successful"){
                             //delete successfully
-
                             _this.selectAll();
-
                             _this.$message({
                                 message: 'Congratulations，delete successfully',
                                 type: 'success'
@@ -361,7 +327,6 @@
                     })
                 }).catch(() => {
                     //User clicks the cancel button
-
                     this.$message({
                         type: 'info',
                         message: 'delete is cancelled'
@@ -372,7 +337,7 @@
 
 
 
-            // delete by ID
+            // delete by ID,  function not realized
             deleteById(){
                 // 弹出确认提示框
                 this.$confirm('此操作将删除该数据, 是否继续?', '提示', {
@@ -381,21 +346,17 @@
                     type: 'warning'
                 }).then(() => {
                     //用户点击确认按钮
-
-
                     for (let i = 0; i < this.multipleSelection.length; i++) {
                         let selectionElement = this.multipleSelection[i];
                         this.selectedId[i] = selectionElement.id;
-
                     }
-
                     //2. 发送AJAX请求
                     var _this = this;
 
                     // 发送ajax请求  send ajax request from frontend to backend
                     axios({
                         method:"post",
-                        url:"http://localhost:8080/brand-case/brand/deleteById",
+                        url:"http://localhost:8080/brand_case/brand/deleteById",
                         data:_this.selectedId
                     }).then(function (resp) {
                         if(resp.data == "success"){
@@ -408,12 +369,10 @@
                                 message: 'Congrats, delete one item successfully',
                                 type: 'success'
                             });
-
                         }
                     })
                 }).catch(() => {
                     //用户点击取消按钮
-
                     this.$message({
                         type: 'info',
                         message: '已取消单个删除'
@@ -421,7 +380,6 @@
                 });
             }
         },
-
 
 
 
@@ -438,7 +396,7 @@
 
                 dialogVisible: false,
 
-                // brand model
+                // brand model， above there are v-models, which can change or assign values to brand
                 brand: {
                     status: '',
                     brandName: '',
@@ -455,11 +413,10 @@
                 // store the id, used for delete by Id
                 selectedId: [],
 
-                // data array when checkbox selected
+                // data array when checkbox is multiple selected
                 multipleSelection: [],
 
-
-                // data in the table
+                // data in the displaying table
                 tableData: []
             }
         }

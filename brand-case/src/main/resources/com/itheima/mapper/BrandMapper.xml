@@ -2,6 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  namespace:指定命名空间(相当于包名),用来区分不同mapper.xml文件中相同的id属性  -->
 <mapper namespace="com.itheima.mapper.BrandMapper">
 
     <resultMap id="brandResultMap" type="brand">
@@ -9,10 +11,13 @@
         <result property="companyName" column="company_name" />
     </resultMap>
 
-
+<!--传参大部分使用#{}传参,它的底层使用的是PreparedStatement对象,是安全的数据库访问 ,防止sql注入. -->
+<!--    parameterType的类型是实体类的类型,则#{}里只能是类中成员变量的名称,而且区分大小写.   -->
+<!--  #{} can get the value from the parameter defined in method in interface  -->
     <delete id="deleteById">
         delete from tb_brand where id = #{id}
     </delete>
+
 
 <!--item is the temporary variable during iteration  -->
     <delete id="deleteByIds">
@@ -20,15 +25,13 @@
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
-
-
     </delete>
 
 
     <!--
     1）#{}是预编译处理， ${}是字符串替换。
     2）MyBatis在处理#{}时，会将SQL中的#{}替换为?号，
-    使用PreparedStatement的set方法来赋值；MyBatis在处理 $ { } 时，就是把 ${ } 替换成变量的值。-->
+     -->
 
 <!-- "% %" already attached in the service layer for brandName property and companyName property  -->
     <select id="selectByPageAndCondition" resultMap="brandResultMap">
@@ -55,6 +58,7 @@
 
 <!-- because there is no @param in the BrandMapper interface for selectTotalCountByCondition method
 therefore, does not need the  " brand. " in #{  }   -->
+<!--  resultType:指定查询返回的结果集的类型,如果是集合,则必须是泛型的类型    -->
     <select id="selectTotalCountByCondition" resultType="java.lang.Integer">
 
         select count(*)
@@ -71,9 +75,7 @@ therefore, does not need the  " brand. " in #{  }   -->
             <if test="status != null">
                 and  status = #{status}
             </if>
-
         </where>
-
     </select>
 
 </mapper>
