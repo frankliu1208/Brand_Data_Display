@@ -7,13 +7,13 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
-// the tool class will be used in Serviceimpl classes.
+// the tool class will be used in BrandServiceimpl classes.
 public class SqlSessionFactoryUtils {
 
     private static SqlSessionFactory sqlSessionFactory;
 
     static {
-        //静态代码块会随着类的加载而自动执行，且只执行一次
+        // static code block will be implemented only once
         try {
             String resource = "mybatis-config.xml";
             InputStream inputStream = Resources.getResourceAsStream(resource);

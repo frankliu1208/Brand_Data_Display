@@ -10,7 +10,9 @@
 
     <environments default="development">
         <environment id="development">
+<!-- there will be 2 types: jdbc, managed            -->
             <transactionManager type="JDBC"/>
+<!--  3 types: unpooled, pooled, jndi           -->
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql:///mybatis?useSSL=false"/>
@@ -20,9 +22,8 @@
         </environment>
     </environments>
 
-<!--    注册mapper.xml文件    -->
     <mappers>
-       <!--scan the mapper-->
+       <!--scan the mapper, introduce the mapping files using package name, which is BrandMapper.xml-->
         <package name="com.itheima.mapper"/>
     </mappers>
 

@@ -39,7 +39,6 @@ public class BrandServiceImpl implements BrandService {
     }
 
 
-
     @Override
     public void deleteById(int id) {
         SqlSession sqlSession = factory.openSession();
@@ -60,8 +59,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
 
-
-//    according to the two parameters from front end, and calculate the starting index, and size
+    //    according to the two parameters from front end, and calculate the starting index, and size
     // this method relates to two methods defined in BrandMapper.java
     @Override
     public PageBean<Brand> selectByPage(int currentPage, int pageSize) {

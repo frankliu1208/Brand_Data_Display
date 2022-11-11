@@ -51,6 +51,7 @@
 
     <build>
         <plugins>
+<!--  tomcat plugin, which means teh tomcat server is integrated into the project          -->
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>

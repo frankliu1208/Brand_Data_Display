@@ -1,8 +1,8 @@
 package com.itheima.pojo;
 
 public class Brand {
-    // primary key
-    private Integer id;
+
+    private Integer id;   // primary key
     private String brandName;
     private String companyName;
     private Integer ordered;

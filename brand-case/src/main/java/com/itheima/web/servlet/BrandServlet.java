@@ -22,16 +22,15 @@ import java.util.List;
 
 @WebServlet("/brand/*")
 public class BrandServlet extends BaseServlet{
-    private BrandService brandService = new BrandServiceImpl();
+    private BrandService brandService = new BrandServiceImpl();  // new the object of implementation class, assign it to interface type
 
     public void selectAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         List<Brand> brands = brandService.selectAll();
-        String jsonString = JSON.toJSONString(brands);   // JSON.toJSONString 是将对象转化为Json字符串,   https://blog.csdn.net/nanhuaibeian/article/details/124268520
+        String jsonString = JSON.toJSONString(brands);  // change to JSON
         response.setContentType("text/json;charset=utf-8");
         response.getWriter().write(jsonString);
     }
-
 
     public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BufferedReader br = request.getReader();
@@ -40,7 +39,6 @@ public class BrandServlet extends BaseServlet{
         brandService.add(brand);
         response.getWriter().write("success");
     }
-
 
     public void deleteById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -51,15 +49,14 @@ public class BrandServlet extends BaseServlet{
         response.getWriter().write("delete by ID is successful");
     }
 
-
     /**
      * series delete
      */
     public void deleteByIds(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //1. get the data from frontend [1,2,3]
+        //1. get the data from frontend,
         BufferedReader br = request.getReader();
         String params = br.readLine();
-        //  change to int[]
+        //  json type changes to int[]
         int[] ids = JSON.parseObject(params, int[].class);
         //2. call method in service layer
         brandService.deleteByIds(ids);
@@ -68,33 +65,27 @@ public class BrandServlet extends BaseServlet{
     }
 
 
-
     /**
-     * search by page
+     * Pagination search
      LIMIT param1, param2   first param means the starting index,  second param means the index number each page
-
-     backend shall send  1. overall list,  2. total record count to the frontend
-     frontend shall send  1. currentPage 2. pageSize to the backend
+     backend shall send  1. overall list,  2. total record count to the front-end
+     frontend shall send  1. currentPage 2. pageSize to the back-end
      */
     public void selectByPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //  get the currentpage and pagesize from frontend   url?currentPage=1&pageSize=5
+        //  get the currentpage and pagesize from frontend :  url?currentPage=1&pageSize=5
         String _currentPage = request.getParameter("currentPage");
         String _pageSize = request.getParameter("pageSize");
-
         //  transfer the string type into int type
         int currentPage = Integer.parseInt(_currentPage);
         int pageSize = Integer.parseInt(_pageSize);
-
-        //   call method,  get the result after handling by service layer and dao layer, the result is in pageBean object
+        //   call method "selectByPage",  get the result after handling by service layer and dao layer, the result is in pageBean object
         PageBean<Brand> pageBean = brandService.selectByPage(currentPage, pageSize);
         //   change to JSON
         String jsonString = JSON.toJSONString(pageBean);
-
-        //   send the data to the front end
+        //   send the data to the front-end
         response.setContentType("text/json;charset=utf-8");
         response.getWriter().write(jsonString);
     }
-
 
 
     /**

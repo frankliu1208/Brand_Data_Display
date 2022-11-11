@@ -2,7 +2,7 @@ package com.itheima.pojo;
 
 import java.util.List;
 
-//   JavaBean used for pagination search,  enclose the current page data - rows, and total record number - totalCount
+//   Used for pagination search,  enclose the current page data -- rows, and total record number -- totalCount
 public class PageBean<T> {
     private int totalCount;
     private List<T> rows;    // data in current page
