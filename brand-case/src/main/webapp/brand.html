@@ -20,21 +20,20 @@
 <body>
 <div id="app">
 
-<!--    in the below el-form tag,  :model equals to v-bind: model.  "brand" is defined in new Vue, data module  -->
+    <!--    this el-form represent the searching menu on top of the web page;  :model equals to v-bind: model.  "brand" is defined in new Vue, data module  -->
     <el-form :inline="true" :model="brand" class="demo-form-inline">
-
-        <el-form-item label="current status">
+        <el-form-item label="Current status">
             <el-select v-model="brand.status" placeholder="current status">
-                <el-option label="start" value="1"></el-option>
+                <el-option label="started" value="1"></el-option>
                 <el-option label="forbidden" value="0"></el-option>
             </el-select>
         </el-form-item>
 
-        <el-form-item label="company name">
+        <el-form-item label="Company name">
             <el-input v-model="brand.companyName" placeholder="company name" clearable></el-input>
         </el-form-item>
 
-        <el-form-item label="brand name">
+        <el-form-item label="Brand name">
             <el-input v-model="brand.brandName" placeholder="brand name" clearable></el-input>
         </el-form-item>
 
@@ -44,7 +43,7 @@
     </el-form>
 
 
-    <!--Button:  functions:  series delete and add -->
+    <!--Two Buttons:  functions:  series delete and add -->
     <el-row>
         <el-button type="danger" plain @click="deleteByIds">Series delete </el-button>
         <el-button type="primary" plain @click="dialogVisible = true">Add</el-button>
@@ -57,7 +56,7 @@
             width="30%"
     >
 
-        <el-form ref="form" :model="brand" label-width="60px">
+        <el-form ref="form" :model="brand" label-width="100px">
             <el-form-item label="Brand name">
                 <el-input v-model="brand.brandName" clearable></el-input>
             </el-form-item>
@@ -93,7 +92,7 @@
     </el-dialog>
 
 
-    <!--displaying Sheet-->
+    <!--displaying Sheet in the center of the page -->
     <template>
         <el-table
                 :data="tableData"
@@ -145,7 +144,7 @@
                     align="center"
                     label="Operation">
 
-                <!--   function of below two buttons are not realized ,  modify and cancel     -->
+                <!--   function of below two buttons are not realized:  modify and cancel     -->
                 <el-row>
                     <el-button type="primary">Modify</el-button>
                     <el-button type="danger" @click="deleteById">Cancel</el-button>
